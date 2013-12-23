@@ -8,6 +8,8 @@ import System.ZMQ
 import Data.ByteString.Char8
 import Debug.Trace
 import GHC.Generics (Generic)
+import System.Posix.Daemon
+import Control.Monad
 
 
 data Input = Input{ htmlText :: String } 
@@ -20,8 +22,8 @@ instance ToJSON Input
 addr = "tcp://127.0.0.1:9999"
 
 -- main :: IO ()
-main =  withContext 64 serve
-
+main =  runDetached (Just "panda.pid") def $ forever $ do
+  withContext 64 serve
 
 -- serve :: Context -> IO ()
 serve context = withSocket context Rep process
@@ -34,7 +36,7 @@ process socket = do bind socket addr
 
 
 -- handle :: Socket a -> IO ()
-handle socket = do readString socket >>= writeString socket . transform . getV . unmarshalJSON . toLazyBytes . unpack
+handle socket = do readString socket >>= writeString socket . transform . htmlTextFromJSON . unmarshalJSON . toLazyBytes . unpack
                    handle socket
 
 
@@ -47,9 +49,9 @@ toLazyBytes s = BL.pack s
 unmarshalJSON bs = decode bs :: Maybe Input
 
 
--- getV :: Maybe Input -> String
--- getV a | trace ("vv" ++ show a) False = undefined
-getV a = case a of
+-- htmlTextFromJSON :: Maybe Input -> String
+-- htmlTextFromJSON a | trace ("vv" ++ show a) False = undefined
+htmlTextFromJSON a = case a of
      Nothing -> "opppps!"
      Just x -> htmlText x
 
