@@ -23,12 +23,15 @@ cabal install
 ```
 
 - Run services
+
 ```
 pandora
 ```
 
 
 ## TODO
+
+- logs
 
 - tests
 
