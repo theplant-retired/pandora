@@ -14,7 +14,7 @@ A Haskell zmq wrapper service for invoking Pandoc. Pandora ≈ (pando)c w(ra)ppe
 - Setup pandora
 
 ```bash
-git clone git@github.com:athom/pandora.git
+git clone git@github.com:theplant/pandora.git
 cd pandora
 cabal install
 cabal configure
