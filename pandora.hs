@@ -72,7 +72,7 @@ html2markdown = writeMarkdown def . readHtml def
 
 
 markdown2html :: String -> String
-markdown2html = writeHtmlString def . readMarkdown def 
+markdown2html = writeHtmlString def . readMarkdown def
 
 
 writeString :: Socket a -> String -> IO ()
