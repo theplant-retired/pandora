@@ -14,13 +14,14 @@ func md2Html() {
 	html := `
        <ul>
         <li>       
-                foo
+                你好
         </li>       
         <li>       
-                bar
+                你妹
         </li>       
        </ul>
        `
+
 	md, _ := pandora.ToMarkdown(html)
 	fmt.Println("------ HTML convert to markdown------")
 	fmt.Println("HTML:")

@@ -21,6 +21,7 @@ executable pandora
   -- other-extensions:    
   build-depends:       base >=4.6 && <4.7,
                        bytestring,
+                       utf8-string,
                        aeson,
                        daemons,
                        zeromq-haskell,

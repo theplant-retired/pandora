@@ -1,15 +1,16 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-import Text.Pandoc
+import Control.Monad
+import Data.ByteString.Char8
+import Data.ByteString.UTF8 (fromString)
 import Data.Aeson (FromJSON, ToJSON, decode, encode)
 import qualified Data.ByteString.Lazy.Char8 as BL
-import System.Environment
-import System.ZMQ
-import Data.ByteString.Char8
 import Debug.Trace
 import GHC.Generics (Generic)
+import System.Environment
+import System.ZMQ
 import System.Posix.Daemon
-import Control.Monad
+import Text.Pandoc
 
 
 data Input = Input{ 
@@ -28,6 +29,7 @@ addr = "tcp://127.0.0.1:9999"
 
 main :: IO ()
 main =  runDetached (Just "panda.pid") def $ forever $ do
+-- main =  do  -- for Debug
   withContext 64 serve
 
 
@@ -42,7 +44,7 @@ process socket = do bind socket addr
 
 
 handle :: Socket a -> IO ()
-handle socket = do readString socket >>= writeString socket . transform . unmarshalJSON . toLazyBytes . unpack
+handle socket = do readString socket >>= writeString socket . utf8 . transform . unmarshalJSON . toLazyBytes . unpack
                    handle socket
 
 
@@ -61,15 +63,20 @@ transform a = case a of
     Just x -> do 
         let f = from x in case f of
          "html" -> let t = to x in case t of
-              "markdown" -> html2markdown (text x)
-              "html" -> text x
+              "markdown" -> html2markdown $ text x
+              "html" ->  text x
          "markdown" -> let t = to x in case t of
-              "html" -> markdown2html(text x)
+              "html" -> markdown2html $ text x
               "markdown" -> text x
 
 
+utf8 :: String -> String 
+utf8 = unpack . fromString
+
+
 html2markdown :: String -> String
-html2markdown = writeMarkdown def . readHtml def 
+-- html2markdown a | trace ("html: " ++ show a) False = undefined
+html2markdown = writeMarkdown def . readHtml def
 
 
 markdown2html :: String -> String
