@@ -58,7 +58,8 @@ transform :: Maybe Input -> String
 -- transform a | trace ("transform: " ++ show a) False = undefined
 transform a = case a of
     Nothing -> "opppps!"
-    Just x -> let f = from x in case f of
+    Just x -> do 
+        let f = from x in case f of
          "html" -> let t = to x in case t of
               "markdown" -> html2markdown (text x)
               "html" -> text x
