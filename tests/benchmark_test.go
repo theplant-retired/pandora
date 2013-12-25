@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-func BenchmarkToMD(b *testing.B) {
+func BenchmarkToMarkdown(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		pandora.ToMD(sampleHTML)
+		pandora.ToMarkdown(sampleHTML)
 	}
 	return
 }
@@ -20,7 +20,7 @@ func BenchmarkToHTML(b *testing.B) {
 	return
 }
 
-func BenchmarkGopandocToMD(b *testing.B) {
+func BenchmarkGopandocToMarkdown(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		gopandoc.ToMarkdown(sampleHTML)
 	}

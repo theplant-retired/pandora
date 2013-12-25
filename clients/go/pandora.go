@@ -29,7 +29,7 @@ func init() {
 	}
 }
 
-func ToMD(html string) (r string, err error) {
+func ToMarkdown(html string) (r string, err error) {
 	data := &Input{
 		Text: html,
 		From: FLAG_HTML,

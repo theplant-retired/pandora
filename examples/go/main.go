@@ -21,7 +21,7 @@ func md2Html() {
         </li>       
        </ul>
        `
-	md, _ := pandora.ToMD(html)
+	md, _ := pandora.ToMarkdown(html)
 	fmt.Println("------ HTML convert to markdown------")
 	fmt.Println("HTML:")
 	fmt.Println(html)

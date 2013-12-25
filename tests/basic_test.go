@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestToMD(t *testing.T) {
+func TestToMarkdown(t *testing.T) {
 	html := `
          <ul>       
                 <li>foo</li>
@@ -17,13 +17,13 @@ func TestToMD(t *testing.T) {
 -   bar
 `
 
-	md, err := pandora.ToMD(html)
+	md, err := pandora.ToMarkdown(html)
 	if err != nil {
-		t.Error("ToMD get error: ", err)
+		t.Error("ToMarkdown get error: ", err)
 	}
 
 	if md != expectedMD {
-		t.Errorf("ToMD expect:\n %v,\n but actually got:\n %v \n", expectedMD, md)
+		t.Errorf("ToMarkdown expect:\n %v,\n but actually got:\n %v \n", expectedMD, md)
 	}
 
 	return
@@ -46,11 +46,11 @@ func TestToHTML(t *testing.T) {
 
 	html, err := pandora.ToHTML(md)
 	if err != nil {
-		t.Error("ToMD get error: ", err)
+		t.Error("ToMarkdown get error: ", err)
 	}
 
 	if html != expectedHTML {
-		t.Errorf("ToMD expect:\n |%v|,\n but actually got:\n |%v| \n", expectedHTML, html)
+		t.Errorf("ToMarkdown expect:\n |%v|,\n but actually got:\n |%v| \n", expectedHTML, html)
 	}
 
 	return
