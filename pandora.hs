@@ -28,7 +28,7 @@ addr = "tcp://127.0.0.1:9999"
 
 
 main :: IO ()
-main =  runDetached (Just "panda.pid") def $ forever $ do
+main =  runDetached (Just "pandora.pid") def $ forever $ do
 -- main =  do  -- for Debug
   withContext 64 serve
 
