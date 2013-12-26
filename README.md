@@ -7,7 +7,7 @@ A Haskell zmq wrapper service for invoking Pandoc. Pandora ≈ (pando)c w(ra)ppe
 
 ## How to setup pandora
 
-1. Install [Haskell Plaform] (http://www.haskell.org/platform/), make sure the runhaskell version >= 7.6.3 and the [cabal](http://www.haskell.org/cabal/) is installed 
+#### 1. Install [Haskell Plaform] (http://www.haskell.org/platform/), make sure the runhaskell version >= 7.6.3 and the [cabal](http://www.haskell.org/cabal/) is installed 
 
 ```
 ➜  ~  runhaskell --version
@@ -17,13 +17,13 @@ cabal-install version 1.16.0.2
 using version 1.16.0 of the Cabal library
 ```
 
-2. Clone the repo 
+#### 2. Clone the repo 
 
 ```
 git clone git@github.com:theplant/pandora.git
 ```
 
-3. Compile the source
+#### 3. Compile the source
 
 ```
 cd pandora
@@ -31,13 +31,13 @@ cabal install
 ```
 note: be patient, it takes quite a long time
 
-4. Start the daemon
+#### 4. Start the daemon
 
 ```
 pandora
 ```
 
-5. Check whether the service is running background
+#### 5. Check whether the service is running background
 
 ```
 ➜  ~  ps -ef | grep pandora
