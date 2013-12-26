@@ -7,7 +7,9 @@ A Haskell zmq wrapper service for invoking Pandoc. Pandora ≈ (pando)c w(ra)ppe
 
 ## How to setup pandora
 
-#### 1. Install [Haskell Plaform] (http://www.haskell.org/platform/), make sure the runhaskell version >= 7.6.3 and the [cabal](http://www.haskell.org/cabal/) is installed 
+#### 0. Install zmq lib
+
+#### 1. Install [Haskell Plaform] (http://www.haskell.org/platform/), and [cabal](http://www.haskell.org/cabal/) should be installed  too.
 
 ```
 ➜  ~  runhaskell --version

@@ -19,7 +19,8 @@ executable pandora
   main-is: pandora.hs 
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base >=4.6 && <4.7,
+  build-depends:       base,
+                       ghc-prim,
                        bytestring,
                        utf8-string,
                        aeson,
