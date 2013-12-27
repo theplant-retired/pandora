@@ -1,6 +1,8 @@
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
 
 import Control.Monad
+import Control.Applicative ((<$>))
 import Data.ByteString.Char8
 import Data.ByteString.UTF8 (fromString)
 import Data.Aeson (FromJSON, ToJSON, decode, encode)
@@ -8,9 +10,11 @@ import qualified Data.ByteString.Lazy.Char8 as BL
 import Debug.Trace
 import GHC.Generics (Generic)
 import System.Environment
-import System.ZMQ
+import System.ZMQ3.Monadic
 import System.Posix.Daemon
 import Text.Pandoc
+import Text.Printf
+import Control.Concurrent (threadDelay)
 
 
 data Input = Input{ 
@@ -26,26 +30,32 @@ instance ToJSON Input
 
 addr = "tcp://127.0.0.1:9999"
 
+workerURL = "inproc://workers"
+
 
 main :: IO ()
-main =  runDetached (Just "pandora.pid") def $ forever $ do
--- main =  do  -- for Debug
-  withContext 64 serve
+main = runDetached (Just "pandora.pid") def $ runZMQ $ do 
+        -- Socket to talk to clients
+        clients <- socket Router
+        bind clients addr
+    
+        -- Socket to talk to workers
+        workers <- socket Dealer
+        bind workers workerURL
+      
+        -- using inproc (inter-thread) we expect to share the same context
+        replicateM_ 5 (async worker)
+        
+        -- Connect work threads to client threads via a queue
+        proxy clients workers Nothing
 
 
-serve :: Context -> IO ()
-serve context = withSocket context Rep process
-
-
-process :: Socket a -> IO ()
-process socket = do bind socket addr
-                    Prelude.putStrLn "Accepting connections..."
-                    handle socket
-
-
-handle :: Socket a -> IO ()
-handle socket = do readString socket >>= writeString socket . utf8 . transform . unmarshalJSON . toLazyBytes . unpack
-                   handle socket
+worker :: ZMQ z ()
+worker = do
+    receiver <- socket Rep
+    connect receiver workerURL
+    forever $ do
+        unpack <$> receive receiver >>= send receiver [] . pack . utf8 . transform . unmarshalJSON . toLazyBytes
 
 
 toLazyBytes :: [Char] -> BL.ByteString
@@ -81,11 +91,3 @@ html2markdown = writeMarkdown def . readHtml def
 
 markdown2html :: String -> String
 markdown2html = writeHtmlString def . readMarkdown def
-
-
-writeString :: Socket a -> String -> IO ()
-writeString socket string = send socket (pack string) []
-
-
-readString :: Socket a -> IO ByteString
-readString socket = receive socket []
