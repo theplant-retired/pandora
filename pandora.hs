@@ -44,7 +44,7 @@ main = runDetached (Just "pandora.pid") def $ runZMQ $ do
         bind workers workerURL
       
         -- using inproc (inter-thread) we expect to share the same context
-        replicateM_ 5 (async worker)
+        replicateM_ 1 (async worker)
         
         -- Connect work threads to client threads via a queue
         proxy clients workers Nothing
