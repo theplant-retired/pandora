@@ -14,7 +14,6 @@ import System.ZMQ3.Monadic
 import System.Posix.Daemon
 import Text.Pandoc
 import Text.Printf
-import Control.Concurrent (threadDelay)
 
 
 data Input = Input{ 
