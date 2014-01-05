@@ -10,7 +10,7 @@ import qualified Data.ByteString.Lazy.Char8 as BL
 import Debug.Trace
 import GHC.Generics (Generic)
 import System.Environment
-import System.ZMQ3.Monadic
+import System.ZMQ4.Monadic
 import System.Posix.Daemon
 import Text.Pandoc
 import Text.Printf
