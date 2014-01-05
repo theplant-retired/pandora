@@ -33,7 +33,7 @@ workerURL = "inproc://workers"
 
 
 main :: IO ()
-main = runDetached (Just "pandora.pid") def $ runZMQ $ do 
+main = runDetached (Nothing) def $ runZMQ $ do 
         -- Socket to talk to clients
         clients <- socket Router
         bind clients addr
