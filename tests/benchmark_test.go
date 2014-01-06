@@ -35,7 +35,7 @@ func pushHTML(htmlText string, out chan string) {
 
 func parallel(f func(string) (string, error)) {
 	mdChan := make(chan string)
-	parallelCount := 10
+	parallelCount := 100
 
 	go func() {
 		for i := 0; i < parallelCount; i++ {
