@@ -25,7 +25,7 @@ executable pandora
                        utf8-string,
                        aeson,
                        daemons,
-                       zeromq4-haskell,
+                       zeromq4-haskell == 0.4,
                        pandoc
                        
   -- hs-source-dirs:      
