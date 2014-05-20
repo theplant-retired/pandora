@@ -5,12 +5,29 @@ import (
 	"testing"
 )
 
+func TestToMarkdownWithCustomOptions(t *testing.T) {
+	html := `<p>好不好看不重要。有钱有权紧要点。这样就可以威胁他们拿钱来换了。<br />。。不知不觉间又发现了一条发家致富的道路了。 。 。。`
+
+	expectedMD := "好不好看不重要。有钱有权紧要点。这样就可以威胁他们拿钱来换了。  \n。。不知不觉间又发现了一条发家致富的道路了。 。 。。"
+
+	md, err := pandora.ToMarkdown(html)
+	if err != nil {
+		t.Error("ToMarkdown get error: ", err)
+	}
+
+	if md != expectedMD {
+		t.Errorf("ToMarkdown expect:\n %v,\n but actually got:\n %v \n", expectedMD, md)
+	}
+
+	return
+}
+
 func TestToMarkdown(t *testing.T) {
 	html := `
-         <ul>       
+         <ul>
                 <li>foo</li>
                 <li>bar</li>
-         </ul>       
+         </ul>
         `
 
 	expectedMD := `-   foo
@@ -55,4 +72,3 @@ func TestToHTML(t *testing.T) {
 
 	return
 }
-
