@@ -27,7 +27,7 @@ executable pandora
                        daemons,
                        zeromq4-haskell == 0.4,
                        containers,
-                       pandoc
+                       pandoc < 1.14
 
   -- hs-source-dirs:
   default-language:    Haskell2010
