@@ -117,17 +117,10 @@ unmarshalJSON bs = decode bs :: Maybe Input
 
 transform :: Maybe Input -> String
 -- transform a | trace ("transform: " ++ show a) False = undefined
-transform a = case a of
-    Nothing -> "opppps!"
-    Just x -> do
-        let f = from x in case f of
-         "html" -> let t = to x in case t of
-              "markdown" -> html2markdown $ text x
-              "html" ->  text x
-         "markdown" -> let t = to x in case t of
-              "html" -> markdown2html $ text x
-              "markdown" -> text x
-
+transform Nothing = "opppps!"
+transform (Just (Input {text=text, from="html", to="markdown"})) = html2markdown text
+transform (Just (Input {text=text, from="markdown", to="html"})) = markdown2html text
+transform (Just (Input {text=text})) = text
 
 utf8 :: String -> String
 utf8 = unpack . fromString
