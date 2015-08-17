@@ -134,10 +134,16 @@ utf8 = unpack . fromString
 
 
 html2markdown :: String -> String
--- html2markdown a | trace ("html: " ++ show a) False = undefined
-html2markdown = writeMarkdown (updateDefautlOptions def myPandocExtensions) . readHtml def
--- html2markdown = writeMarkdown WriterOptions . readHtml def
-
+html2markdown = parse (readHtml def) (writeMarkdown (updateDefautlOptions def myPandocExtensions))
 
 markdown2html :: String -> String
-markdown2html = writeHtmlString def . readMarkdown def
+markdown2html = parse (readMarkdown def) (writeHtmlString def)
+
+parse reader writer input = unwrap $ do
+ parsed <- reader input
+ return $ writer parsed
+
+-- Ignoring errors!
+unwrap :: Either a String -> String
+unwrap (Left _) = ""
+unwrap (Right string) = string
